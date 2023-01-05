@@ -1,7 +1,10 @@
 from board import draw_board
+from stats import reset, update, print_stats
 from copy import deepcopy
 
 board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+
+# TODO fix the play_game function so after each game it asks you which player you would like to be and offers you an option to quit.
 
 def player(board):
     """
@@ -272,24 +275,33 @@ def play_game(board):
                 print("game over. X wins!")
             else:
                 print("game over. Tie game")
-            return
 
+            # Update the database
+            if w == None:
+                update(0, opponent)
+            elif w == opponent:
+                update(1, opponent)
+            else:
+                update(-1, opponent)
 
-def run():
+            
+            # Print stats
+            print_stats()
+            break
+
+def runner():
     """
-    This function calls the play_game function in an infinite loop and resets the board list when the game is over.
+    This function first resets the board and then calls the play_game function. It continues in an infinite loop.
     """
     while True:
-        play_game(board)
-        # Reset the board after the game is finished
         for i in range(3):
             for j in range(3):
                 board[i][j] = " "
-
-
+        play_game(board)
+        
 
 if __name__ == "__main__":
-    run()
+    runner()
             
 
 
